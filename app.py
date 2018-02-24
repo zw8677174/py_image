@@ -21,11 +21,6 @@ data = dict(
     heigh=im.size[1],
     data=data
 )
-print data
-exit()
 
 pic = PIC(data)
-
-out = pic.get_point(x=850, y=1200)
-print(out)
-
+pic.k_means_fuc()

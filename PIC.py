@@ -1,6 +1,5 @@
 # -*- coding:utf-8 -*-
 class PIC:
-
     def __init__(self, data):
         self.size = dict(
             width=data['width'],
@@ -25,7 +24,12 @@ class PIC:
                 'value': 50,
                 'sum_val': 0,
                 'sum_num': 0
-             },
+            },
+            {
+                'value': 150,
+                'sum_val': 0,
+                'sum_num': 0
+            },
             {
                 'value': 200,
                 'sum_val': 0,
@@ -34,41 +38,48 @@ class PIC:
         ]
 
     def k_means_fuc(self):
+        for i in range(0, 20):
+            self.k_means_once()
+        for i in range(self.size['width']):
+            for j in range(self.size['heigh']):
+                self._set(i, j)
+                pass
+        return self.data
+
+    def k_means_once(self):
         for i in range(self.size['width']):
             for j in range(self.size['heigh']):
                 # one point for value in split points
-                self.get_belong(self.data[i][j])
-                # got the smallest
-                key = distant.index( min(distant) )
-                # belong and add
-                start_point[key]['sum_val'] += self.data[i][j]
-                start_point[key]['sum_num'] += 1
+                self.get_belong(self.data[i, j])
+        self.reset_point()
 
-        exit()
-        # replace split_points
-        # for i in range(split_num):
-        #     start_point[i]['value'] = int(start_point[i]['sum_val'] / start_point[i]['sum_num'])
-        #     start_point[i]['sum_val'] = 0
-        #     start_point[i]['sum_num'] = 0
-        #
-        # self.start_point = start_point
+    def reset_point(self):
+        for index, point in enumerate(self.weight_points):
+            if self.weight_points[index]['sum_num'] == 0:
+                break
+            self.weight_points[index]['value'] = int(
+                self.weight_points[index]['sum_val'] / self.weight_points[index]['sum_num'])
+            self.weight_points[index]['sum_val'] = 0
+            self.weight_points[index]['sum_num'] = 0
 
-    def get_belong(self, data):
-        dist = []
-        for key, value in enumerate(self.weight_points):
-            dist.append(abs(data-value['value']))
-        exit()
+    def get_belong(self, weight):
+        most_close_distance = 99999
+        most_close_index = 0
+        for index, point in enumerate(self.weight_points):
+            distance = abs(self.weight_points[index]['value'] - weight)
+            if distance < most_close_distance:
+                most_close_distance = distance
+                most_close_index = index
+        self.weight_points[most_close_index]['sum_val'] += weight
+        self.weight_points[most_close_index]['sum_num'] += 1
 
-
-
-
-
-
-
-
-
-
-
-
-
+    def _set(self, x, y):
+        weight = self.data[x, y]
+        most_close_distance = 9999
+        for index, point in enumerate(self.weight_points):
+            distance = abs(self.weight_points[index]['value'] - weight)
+            if distance < most_close_distance:
+                most_close_distance = distance
+                most_close_index = index
+        self.data[x, y] = self.weight_points[most_close_index]['value']
 

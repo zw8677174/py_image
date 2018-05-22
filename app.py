@@ -17,5 +17,5 @@ pic = PIC(data)
 data = pic.k_means_fuc()
 
 
-im.show(data)
+im.save('out.jpeg')
 

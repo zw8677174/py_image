@@ -3,7 +3,7 @@ from PIL import Image
 from PIC import PIC
 import numpy as np
 
-im = Image.open("./1.jpeg", mode="r")
+im = Image.open("./in.jpeg", mode="r")
 im = im.convert(mode='L')
 pim = im.load()
 
